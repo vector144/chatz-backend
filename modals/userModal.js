@@ -12,6 +12,9 @@ const User = mongoose.Schema({
     }, password: {
         type: String,
         required: [true, "password is required"]
+    }, profileImage: {
+        type: String,
+        default: ""
     }
 }, { timestamps: true })
 module.exports = mongoose.model("User", User)
