@@ -8,7 +8,6 @@ const validateToken = asyncHandler(async (req, res, next) => {
         let authHeader = req.headers.Authorization || req.headers.authorization
         if (authHeader && (authHeader.startsWith("Bearer"))) {
             token = authHeader.split(" ")[1]
-            console.log(token)
             jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, decode) => {
                 if (err) {
                     res.status(400)
@@ -17,9 +16,6 @@ const validateToken = asyncHandler(async (req, res, next) => {
                 }
                 req.user = decode.user
                 next()
-                // res.status(200).json(decode.user)
-                // console.log(decode)
-
             })
 
         } else {

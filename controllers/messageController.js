@@ -2,12 +2,14 @@ const Message = require("../modals/messageModal")
 const bcyrpt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const asyncHandler = require("express-async-handler")
+const { extractUser } = require("../helper")
 
 
 
 const sendMessage = asyncHandler(async (req, res) => {
     try {
-        const { senderId, recipientId, content } = req.body;
+        const { recipientId, content } = req.body;
+        const senderId = extractUser(req).id
         if (!senderId || !recipientId) {
             return res.status(400).json({ error: 'Both senderId and recipientId are required' });
         }
@@ -27,15 +29,14 @@ const sendMessage = asyncHandler(async (req, res) => {
     } catch (error) {
         console.error(error); // Log the error for debugging
         res.status(error.statusCode || 500).json({ error: error.message });
-
-
-    }
+ }
 
 })
 const conversation = asyncHandler(async (req, res) => {
     try {
-        const { senderId, recipientId } = req.body;
-
+        console.log(req.user._id)
+        const { recipientId } = req.body;
+        const senderId = extractUser(req).id
         if (!senderId || !recipientId) {
             return res.status(400).json({ error: 'Both senderId and recipientId are required' });
         }
@@ -51,8 +52,6 @@ const conversation = asyncHandler(async (req, res) => {
     } catch (error) {
         console.error(error); // Log the error for debugging
         res.status(error.statusCode || 500).json({ error: error.message });
-
-
     }
 
 })
