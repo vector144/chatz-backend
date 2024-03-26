@@ -2,10 +2,12 @@ const User = require("../modals/userModal")
 const bcyrpt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const asyncHandler = require("express-async-handler")
+const { extractUser } = require("../helper")
 
 const userList = asyncHandler(async (req, res) => {
   try {
-    let list = await User.find({})
+    const senderId = extractUser(req).id
+    let list = await User.find({ _id:{$ne:senderId}})
 
     const userListArray = list.map(user => ({
       id: user._id,

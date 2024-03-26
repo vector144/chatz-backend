@@ -34,7 +34,6 @@ const sendMessage = asyncHandler(async (req, res) => {
 })
 const conversation = asyncHandler(async (req, res) => {
     try {
-        console.log(req.user._id)
         const { recipientId } = req.body;
         const senderId = extractUser(req).id
         if (!senderId || !recipientId) {
